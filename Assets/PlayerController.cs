@@ -12,6 +12,9 @@ public class PlayerController : MonoBehaviour
     private Vector3 movement;
     private Vector3 rotationSpeed = new Vector3(0, 40, 0);
     private Rigidbody rb;
+    
+    private float walk = 1.0f;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -25,9 +28,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // if (Input.GetKeyDown(KeyCode.LeftShift)) walk = (walk + run);
+        // if (Input.GetKeyUp(KeyCode.LeftShift)) walk = (walk - run);
         float Horizontal = Input.GetAxis("Horizontal");
         float Vertical = Input.GetAxis("Vertical");
-        movement = new Vector3(Horizontal, 0f, Vertical).normalized;
+        movement = new Vector3(Horizontal, 0f, Vertical);
 
         /*if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
 			transform.Rotate(Vector3.left * 2);
@@ -40,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, 100))
             {
-
+                
                 // Check if we hit an interactable object
                 // If yes, set it as object
             }
@@ -49,8 +54,10 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Quaternion deltaRotation = Quaternion.Euler(movement.x * Time.deltaTime * rotationSpeed);
-        rb.MoveRotation(rb.rotation * deltaRotation);
-        rb.MovePosition(rb.position + transform.forward * force * Time.fixedDeltaTime *  movement.z );
+        // Quaternion deltaRotation = Quaternion.Euler(movement.x * Time.deltaTime * rotationSpeed);
+        // rb.MoveRotation(rb.rotation * deltaRotation);
+        // rb.MovePosition(rb.position + Time.fixedDeltaTime *  movement.z * force * transform.forward);
+        
+        rb.MovePosition(rb.position +  walk * Time.fixedDeltaTime * movement);
     }
 }
