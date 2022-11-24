@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
         
         currZoom = Mathf.Clamp(currZoom, minZoom, maxZoom);
 
-        yawInput -= Input.GetAxis("Horizontal") * yawSpeed * Time.deltaTime;
+        // yawInput -= Input.GetAxis("Horizontal") * yawSpeed * Time.deltaTime;
     }
 
     void LateUpdate()

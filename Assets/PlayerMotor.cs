@@ -20,9 +20,4 @@ public class PlayerMotor : MonoBehaviour
         agent.SetDestination(point);
     }
 
-    public void MoveX(int )
-    {
-        point.y = agent.nextPosition.y;
-        agent.SetDestination(point);
-    }
 }

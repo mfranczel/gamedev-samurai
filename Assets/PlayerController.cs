@@ -2,46 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerMotor)), RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     public LayerMask movementMask;
     Camera cam;
     PlayerMotor motor;
     public float force = 50f;
+    public GameObject player;
+    private Vector3 movement;
+    private Vector3 rotationSpeed = new Vector3(0, 40, 0);
+    private Rigidbody rb;
 
     // Start is called before the first frame update
     void Start()
     {
         cam = Camera.main;
-        motor = GetComponent<PlayerMotor>();
+        motor = FindObjectOfType<PlayerMotor>();
+        rb = player.GetComponent<Rigidbody>();
+        movement = Vector3.zero;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            /*
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+        float Horizontal = Input.GetAxis("Horizontal");
+        float Vertical = Input.GetAxis("Vertical");
+        movement = new Vector3(Horizontal, 0f, Vertical).normalized;
 
-            if (Physics.Raycast(ray, out hit, 500, movementMask))
-            {
-                // Move player to what we hit
-                motor.MoveToPoint(hit.point);
-
-                // Stop focusing on objects
-            }*/
-        } else if (Input.GetKey(KeyCode.UpArrow)) { 
-			GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * force);
-        } else if (Input.GetKey(KeyCode.DownArrow)) {
-			GetComponent<Rigidbody>().AddRelativeForce(Vector3.back * force);
-        } else if (Input.GetKey(KeyCode.LeftArrow)) {
-			transform.Rotate(Vector3.down * 2);
-        } else if (Input.GetKey(KeyCode.RightArrow)) {
-            transform.Rotate(Vector3.up * 2);
-        } else if (Input.GetMouseButtonDown(1))
+        /*if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
+			transform.Rotate(Vector3.left * 2);
+        } else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.R)) {
+            transform.Rotate(Vector3.right * 2);
+        } else */if (Input.GetMouseButtonDown(1))
         {
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -53,5 +45,12 @@ public class PlayerController : MonoBehaviour
                 // If yes, set it as object
             }
         }
+    }
+
+    void FixedUpdate()
+    {
+        Quaternion deltaRotation = Quaternion.Euler(movement.x * Time.deltaTime * rotationSpeed);
+        rb.MoveRotation(rb.rotation * deltaRotation);
+        rb.MovePosition(rb.position + transform.forward * force * Time.fixedDeltaTime *  movement.z );
     }
 }
