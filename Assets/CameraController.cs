@@ -15,7 +15,7 @@ public class CameraController : MonoBehaviour
     private float yawInput = 0f;
 
     public GameObject player;
-    public float cameraDistance = 10.0f;
+    public float cameraDistance = 2.0f;
 
     public float sensitivity = 1.0f;
     void Update()
@@ -28,7 +28,8 @@ public class CameraController : MonoBehaviour
         float rotateVertical = Input.GetAxis ("Mouse Y");
         transform.RotateAround (player.transform.position, -Vector3.up, rotateHorizontal * sensitivity);
         transform.RotateAround (Vector3.zero, transform.right, rotateVertical * sensitivity);
-
+        transform.LookAt(player.transform);
+        
         // yawInput -= Input.GetAxis("Horizontal") * yawSpeed * Time.deltaTime;
     }
 
