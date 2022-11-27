@@ -4,45 +4,41 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform target;
-    public Vector3 offset;
-    private float currZoom = 10f;
-    public float pitch = 2f;
-    public float zoomSpeed = 4f;
-    public float minZoom = 10f;
-    public float maxZoom = 10f;
-    public float yawSpeed = 100f;
-    private float yawInput = 0f;
 
-    public GameObject player;
-    public float cameraDistance = 2.0f;
+    public float lookSensitivity;
+    public float minXLook;
+    public float maxXLook;
+    public Transform camAnchor;
 
-    public float sensitivity = 1.0f;
-    void Update()
+    public bool invertXRotation;
+
+    private float curXRot;
+
+    void Start()
     {
-        currZoom -= Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
-        
-        currZoom = Mathf.Clamp(currZoom, minZoom, maxZoom);
-        
-        float rotateHorizontal = Input.GetAxis ("Mouse X");
-        float rotateVertical = Input.GetAxis ("Mouse Y");
-        transform.RotateAround (player.transform.position, -Vector3.up, rotateHorizontal * sensitivity);
-        transform.RotateAround (Vector3.zero, transform.right, rotateVertical * sensitivity);
-        transform.LookAt(player.transform);
-        
-        // yawInput -= Input.GetAxis("Horizontal") * yawSpeed * Time.deltaTime;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void LateUpdate()
     {
-        // transform.position = player.transform.position - player.transform.forward * cameraDistance;
-        // transform.LookAt (player.transform.position);
-        // transform.position = new Vector3 (transform.position.x, transform.position.y + 5, transform.position.z);
-        
-        
-        
-        // transform.position = target.position - offset * currZoom;
-        // transform.LookAt(target.position + Vector3.up * pitch);
-        // transform.RotateAround(target.position, Vector3.up, yawInput);
+        float x = Input.GetAxis("Mouse X");
+        float y = Input.GetAxis("Mouse Y");
+
+        // Rotate horizontally
+        transform.eulerAngles += Vector3.up * x * lookSensitivity;
+
+        // Add vertical movement and clamp
+        if (invertXRotation)
+        {
+            curXRot += y * lookSensitivity;
+        }
+        else {
+            curXRot -= y * lookSensitivity;
+        }
+        curXRot = Mathf.Clamp(curXRot, minXLook, maxXLook);
+
+        Vector3 clampedAngle = camAnchor.eulerAngles;
+        clampedAngle.x = curXRot;
+        camAnchor.eulerAngles = clampedAngle;
     }
 }

@@ -23,7 +23,11 @@ public class MapDisplay : MonoBehaviour
     public void DrawMesh(MeshData meshData, Texture2D texture)
     {
         Mesh mesh = meshData.CreateMesh();
-        meshCollider = gameObject.AddComponent<MeshCollider>();
+        meshCollider = gameObject.GetComponent<MeshCollider>();
+        if (meshCollider == null)
+        {
+            meshCollider = gameObject.AddComponent<MeshCollider>();
+        } 
         meshCollider.sharedMesh = mesh;
 
         meshFilter.sharedMesh = mesh;

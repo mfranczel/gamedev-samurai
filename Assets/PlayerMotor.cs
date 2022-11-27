@@ -15,7 +15,6 @@ public class PlayerMotor : MonoBehaviour
 
     public void MoveToPoint(Vector3 point)
     {
-        Debug.Log("Moving"); // todo: fix
         point.y = agent.nextPosition.y;
         agent.SetDestination(point);
     }
