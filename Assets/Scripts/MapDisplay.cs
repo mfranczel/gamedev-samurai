@@ -7,8 +7,7 @@ public class MapDisplay : MonoBehaviour
     public Renderer textureRenderer;
     public MeshFilter meshFilter;
     public MeshRenderer meshRenderer;
-
-    MeshCollider meshCollider;
+    public MeshCollider meshCollider;
 
 
     public void DrawTexture(Texture2D texture)
@@ -23,13 +22,7 @@ public class MapDisplay : MonoBehaviour
     public void DrawMesh(MeshData meshData, Texture2D texture)
     {
         Mesh mesh = meshData.CreateMesh();
-        meshCollider = gameObject.GetComponent<MeshCollider>();
-        if (meshCollider == null)
-        {
-            meshCollider = gameObject.AddComponent<MeshCollider>();
-        } 
         meshCollider.sharedMesh = mesh;
-
         meshFilter.sharedMesh = mesh;
         meshRenderer.sharedMaterial.mainTexture = texture;
     }

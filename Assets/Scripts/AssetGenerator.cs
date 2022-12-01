@@ -24,9 +24,10 @@ public class AssetGenerator : MonoBehaviour
     List<Collider> spawnedObjects = new List<Collider>();
     List<GameObject> spawnedGameObjects = new List<GameObject>();
 
-    // Start is called before the first frame update
+
     public void GenerateAssets()
     {
+        // Destroy all if already spawned
         if (spawnedObjects.Count > 0) {
             destroyAll();
         }
@@ -36,6 +37,7 @@ public class AssetGenerator : MonoBehaviour
 
         numberOfObjectsToSpawn = Random.Range(minNumberToSpawn, maxNumberToSpawn + 1);
 
+        // Generate number (between minNumberToSpawn and maxNumberToSpawn) of random objects 
         for (int i = 0; i < numberOfObjectsToSpawn; i++)
         {
             go = Instantiate(prefabs[Random.Range(0, prefabs.Count)]);
@@ -44,24 +46,25 @@ public class AssetGenerator : MonoBehaviour
 
             bool foundHit = false;
             Vector3 hitpoint = new Vector3();
+            float randomX;
+            float randomZ;
 
-            float y = maxHeight; // How high we start from, 10 meters in this case
+            float y = maxHeight; // How high we start from, y meters
             do
             {
-                float randomX = Random.Range(-mapWidth, mapWidth);
-                float randomZ = Random.Range(-mapLength, mapLength);
+               randomX = Random.Range(-mapWidth, mapWidth);
+                randomZ = Random.Range(-mapLength, mapLength);
 
                 if (Mathf.Sqrt(Mathf.Pow(randomX, 2) + Mathf.Pow(randomZ, 2)) >= cityRadius) {
                     Vector3 testPosition = new Vector3(randomX, y, randomZ);
 
-                    // Perform a raycast
+                    // Perform a raycast to find out, if position suitable for object
                     RaycastHit hit;
                     if (Physics.Raycast(testPosition, Vector3.down, out hit, Mathf.Infinity))
                     {
                         // If we hit object tagged as "Ground"
                         if (hit.transform.gameObject.tag == "Ground" && hit.point.y > minHeight)
                         {
-                            Debug.DrawRay(testPosition, Vector3.down * hit.distance, Color.green, 1f);
                             Debug.Log("Hit Ground");
                             foundHit = true;
                             hitpoint = hit.point;
@@ -69,7 +72,6 @@ public class AssetGenerator : MonoBehaviour
                         // If not hit something else withing bounds.
                         else
                         {
-                            Debug.DrawRay(testPosition, Vector3.down * hit.distance, Color.red, 1f);
                             Debug.Log("Hit something else " + hit.transform.gameObject.tag);
                         }
                     }
@@ -77,13 +79,9 @@ public class AssetGenerator : MonoBehaviour
 
             } while (!foundHit);
 
-            tr.position = hitpoint;
+            Vector3 newPosition = new Vector3(randomX, hitpoint.y, randomZ);
 
-            /*do
-            {
-                tr.position = new Vector3(Random.Range(-mapWidth, mapWidth), map.transform.position.y + col.bounds.extents.y, Random.Range(-mapLength, mapLength));
-            }
-            while (IsInBuildingOrInSpawnedObject(col));*/
+            tr.position = newPosition;
             spawnedObjects.Add(col);
             spawnedGameObjects.Add(go);
         }
