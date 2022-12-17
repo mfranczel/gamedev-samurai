@@ -22,5 +22,10 @@ public class AssetGeneratorEditor : Editor
         {
             assGen.GenerateAllAssets();
         }
+        
+        if (GUILayout.Button("Clear"))
+        {
+            assGen.ResetAllAssets();
+        }
     }
 }

@@ -6,13 +6,13 @@ using UnityEngine.AI;
 public class AssetGenerator : MonoBehaviour
 {
     public NavMeshSurface surface;
-    
+
     public List<GameObject> plantPrefabs = new List<GameObject>();
     public List<GameObject> rockPrefabs = new List<GameObject>();
     public List<GameObject> bushPrefabs = new List<GameObject>();
     public List<GameObject> bambooPrefabs = new List<GameObject>();
     public Collider map;
-    
+
     public Vector2 plantNumberRange = new Vector2(0, 0);
     public Vector2 rockNumberRange = new Vector2(0, 0);
     public Vector2 bushNumberRange = new Vector2(0, 0);
@@ -22,12 +22,12 @@ public class AssetGenerator : MonoBehaviour
     public Vector2 rockHeightRange = new Vector2(0, 0);
     public Vector2 bushHeightRange = new Vector2(0, 0);
     public Vector2 bambooHeightRange = new Vector2(0, 0);
-    
+
     public float plantCityRadius = 0f;
     public float rockCityRadius = 0f;
     public float bushCityRadius = 0f;
     public float bambooCityRadius = 0f;
-    
+
     public bool autoUpdate;
 
     float mapWidth;
@@ -44,22 +44,29 @@ public class AssetGenerator : MonoBehaviour
         GenerateAllAssets();
     }
 
+    public void ResetAllAssets()
+    {
+        // Destroy all if already spawned
+        if (spawnedObjects.Count > 0) {
+            destroyAll();
+        }
+    }
+
     public void GenerateAllAssets()
     {
-        GenerateAssets(plantPrefabs, plantNumberRange, plantHeightRange, plantCityRadius);
-        GenerateAssets(rockPrefabs, rockNumberRange, rockHeightRange, rockCityRadius);
-        GenerateAssets(bushPrefabs, bushNumberRange, bushHeightRange, bushCityRadius);
-        GenerateAssets(bambooPrefabs, bambooNumberRange, bambooHeightRange, bambooCityRadius);
+        if (spawnedObjects.Count == 0)
+        {
+            GenerateAssets(plantPrefabs, plantNumberRange, plantHeightRange, plantCityRadius);
+            GenerateAssets(rockPrefabs, rockNumberRange, rockHeightRange, rockCityRadius);
+            GenerateAssets(bushPrefabs, bushNumberRange, bushHeightRange, bushCityRadius);
+            GenerateAssets(bambooPrefabs, bambooNumberRange, bambooHeightRange, bambooCityRadius);
+        }
 
         BuildNavMesh();
     }
 
     private void GenerateAssets(List<GameObject> prefabs, Vector2 numberRange, Vector2 heightRange, float cityRadius)
     {
-        // Destroy all if already spawned
-        if (spawnedObjects.Count > 0) {
-            destroyAll();
-        }
 
         mapWidth = map.bounds.extents.x;
         mapLength = map.bounds.extents.z;
@@ -121,6 +128,7 @@ public class AssetGenerator : MonoBehaviour
             DestroyImmediate(spawnedGameObjects[i]);
         }
         spawnedObjects = new List<Collider>();
+        surface.RemoveData();
     }
 
     private bool IsInBuildingOrInSpawnedObject(Collider c)
