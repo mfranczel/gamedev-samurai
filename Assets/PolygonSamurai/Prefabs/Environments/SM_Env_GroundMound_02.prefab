@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 414070}
   - component: {fileID: 3393086}
   - component: {fileID: 2324516}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Env_GroundMound_02
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

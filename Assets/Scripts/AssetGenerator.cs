@@ -1,18 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AssetGenerator : MonoBehaviour
 {
-    public List<GameObject> prefabs = new List<GameObject>();
+    public NavMeshSurface surface;
+    
+    public List<GameObject> plantPrefabs = new List<GameObject>();
+    public List<GameObject> rockPrefabs = new List<GameObject>();
+    public List<GameObject> bushPrefabs = new List<GameObject>();
+    public List<GameObject> bambooPrefabs = new List<GameObject>();
     public Collider map;
+    
+    public Vector2 plantNumberRange = new Vector2(0, 0);
+    public Vector2 rockNumberRange = new Vector2(0, 0);
+    public Vector2 bushNumberRange = new Vector2(0, 0);
+    public Vector2 bambooNumberRange = new Vector2(0, 0);
 
-    int numberOfObjectsToSpawn;
-    public int minNumberToSpawn = 10;
-    public int maxNumberToSpawn = 50;
-    public float cityRadius;
-    public float minHeight = 32f;
-    public float maxHeight = 70f;
+    public Vector2 plantHeightRange = new Vector2(0, 0);
+    public Vector2 rockHeightRange = new Vector2(0, 0);
+    public Vector2 bushHeightRange = new Vector2(0, 0);
+    public Vector2 bambooHeightRange = new Vector2(0, 0);
+    
+    public float plantCityRadius = 0f;
+    public float rockCityRadius = 0f;
+    public float bushCityRadius = 0f;
+    public float bambooCityRadius = 0f;
+    
     public bool autoUpdate;
 
     float mapWidth;
@@ -24,8 +39,22 @@ public class AssetGenerator : MonoBehaviour
     List<Collider> spawnedObjects = new List<Collider>();
     List<GameObject> spawnedGameObjects = new List<GameObject>();
 
+    void Awake()
+    {
+        GenerateAllAssets();
+    }
 
-    public void GenerateAssets()
+    public void GenerateAllAssets()
+    {
+        GenerateAssets(plantPrefabs, plantNumberRange, plantHeightRange, plantCityRadius);
+        GenerateAssets(rockPrefabs, rockNumberRange, rockHeightRange, rockCityRadius);
+        GenerateAssets(bushPrefabs, bushNumberRange, bushHeightRange, bushCityRadius);
+        GenerateAssets(bambooPrefabs, bambooNumberRange, bambooHeightRange, bambooCityRadius);
+
+        BuildNavMesh();
+    }
+
+    private void GenerateAssets(List<GameObject> prefabs, Vector2 numberRange, Vector2 heightRange, float cityRadius)
     {
         // Destroy all if already spawned
         if (spawnedObjects.Count > 0) {
@@ -35,7 +64,7 @@ public class AssetGenerator : MonoBehaviour
         mapWidth = map.bounds.extents.x;
         mapLength = map.bounds.extents.z;
 
-        numberOfObjectsToSpawn = Random.Range(minNumberToSpawn, maxNumberToSpawn + 1);
+        int numberOfObjectsToSpawn = Random.Range((int) numberRange.x, (int) numberRange.y + 1);
 
         // Generate number (between minNumberToSpawn and maxNumberToSpawn) of random objects 
         for (int i = 0; i < numberOfObjectsToSpawn; i++)
@@ -49,7 +78,7 @@ public class AssetGenerator : MonoBehaviour
             float randomX;
             float randomZ;
 
-            float y = maxHeight; // How high we start from, y meters
+            float y = heightRange.y; // How high we start from, y meters
             do
             {
                randomX = Random.Range(-mapWidth, mapWidth);
@@ -63,7 +92,7 @@ public class AssetGenerator : MonoBehaviour
                     if (Physics.Raycast(testPosition, Vector3.down, out hit, Mathf.Infinity))
                     {
                         // If we hit object tagged as "Ground"
-                        if (hit.transform.gameObject.tag == "Ground" && hit.point.y > minHeight)
+                        if (hit.transform.gameObject.tag == "Ground" && hit.point.y > heightRange.x)
                         {
                             Debug.Log("Hit Ground");
                             foundHit = true;
@@ -112,6 +141,15 @@ public class AssetGenerator : MonoBehaviour
         }
 
         return b;
+    }
+    public void BuildNavMesh()
+    {
+        Debug.Log("Building navmesh");
+        // bake navmesh 
+        if (surface.navMeshData == null)
+        {
+            surface.BuildNavMesh();
+        }
     }
 
 }

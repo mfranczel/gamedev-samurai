@@ -28,6 +28,15 @@ public class MapGenerator : MonoBehaviour
     public TerrainType[] regions;
     public AnimationCurve heightCurve;
 
+    void Awake()
+    {
+        GenerateMap();
+
+        // Update NavMesh
+        //NavMesh.
+
+    }
+
     public void GenerateMap()
     {
         float[,] noiseMap = Noise.GenerateNoiseMap(

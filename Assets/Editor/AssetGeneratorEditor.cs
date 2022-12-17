@@ -14,13 +14,13 @@ public class AssetGeneratorEditor : Editor
         {
             if (assGen.autoUpdate)
             {
-                assGen.GenerateAssets();
+                assGen.GenerateAllAssets();
             }
         }
 
         if (GUILayout.Button("Generate"))
         {
-            assGen.GenerateAssets();
+            assGen.GenerateAllAssets();
         }
     }
 }

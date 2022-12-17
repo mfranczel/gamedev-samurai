@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 478508}
   - component: {fileID: 3394824}
   - component: {fileID: 2362634}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Env_Hill_Cascade_02
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

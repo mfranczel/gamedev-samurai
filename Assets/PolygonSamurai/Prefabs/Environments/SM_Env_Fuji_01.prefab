@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 471442}
   - component: {fileID: 3366494}
   - component: {fileID: 2396150}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Env_Fuji_01
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
