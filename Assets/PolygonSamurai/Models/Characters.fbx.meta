@@ -646,7 +646,11 @@ ModelImporter:
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
+<<<<<<< HEAD
     importVisibility: 1
+=======
+    importVisibility: 0
+>>>>>>> origin/main
     importBlendShapes: 0
     importCameras: 0
     importLights: 0
@@ -663,7 +667,11 @@ ModelImporter:
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
     optimizeBones: 1
+<<<<<<< HEAD
     meshOptimizationFlags: -1
+=======
+    meshOptimizationFlags: 1
+>>>>>>> origin/main
     indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
