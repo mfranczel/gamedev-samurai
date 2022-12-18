@@ -23,8 +23,8 @@ public class PlayerController : MonoBehaviour
     private float walk = 1.0f;
     public HealthBar healthBar;
     public GameObject SpawnPoint;
-    public TextMeshPro killText;
-    public TextMeshPro xpText;
+    public TextMeshProUGUI killText;
+    public TextMeshProUGUI xpText;
 
     [SerializeField] private Animator _animator;
     
