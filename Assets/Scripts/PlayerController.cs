@@ -11,6 +11,12 @@ public class PlayerController : MonoBehaviour
     public float force = 50f;
     public int maxHealth;
     public int currHealth;
+    public int speed;
+    public int attack;
+    
+    public int gameMaxHealth;
+    public int gameMaxSpeed;
+    public int gameMaxAttack;
 
     public int kills;
     public int xps;
@@ -25,6 +31,10 @@ public class PlayerController : MonoBehaviour
     public GameObject SpawnPoint;
     public TextMeshProUGUI killText;
     public TextMeshProUGUI xpText;
+
+    public delegate void OnPlayerDeath();
+    public static OnPlayerDeath onPlayerDeath;
+    
     
 
     // Start is called before the first frame update
@@ -54,9 +64,21 @@ public class PlayerController : MonoBehaviour
         rb.velocity = movement;
     }
 
+    void Die()
+    {
+        if (onPlayerDeath != null)
+        {
+            onPlayerDeath?.Invoke();
+        }
+    }
+
     void TakeDamage(int damage) {
         currHealth -= damage;
         healthBar.SetHealth(currHealth);
+        
+        if (currHealth <= 0) {
+            Die();
+        }
     }
     
     void AddKill(int nKills) {
@@ -64,7 +86,7 @@ public class PlayerController : MonoBehaviour
         killText.text = kills.ToString();
     }
     
-    void AddXPs(int xp) {
+    void ChangeXPs(int xp) {
         xps += xp;
         xpText.text = xps.ToString();
     }
