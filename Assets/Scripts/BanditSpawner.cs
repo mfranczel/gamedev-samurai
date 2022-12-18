@@ -10,6 +10,9 @@ public class BanditSpawner : MonoBehaviour
     public GameObject Player;
 
     public GameObject Spawnpoint;
+    private List<GameObject> BanditList;
+    private int lastBanditCount;
+    private float timeDelta;
 
     public int WaveNumber = 1;
     // Start is called before the first frame update
@@ -39,13 +42,33 @@ public class BanditSpawner : MonoBehaviour
             {
                 agent.destination =  Target.transform.position;
             }
+            BanditList.Add(newBandit);
         }
-        
+
+        lastBanditCount = BanditList.Count;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        timeDelta += Time.deltaTime;
+
+        if (timeDelta > 1)
+        {
+            
+        }
+
+
     }
+
+    void UpdateCount()
+    {
+        if (lastBanditCount != BanditList.Count)
+        {
+            lastBanditCount = BanditList.Count;
+            
+        }
+    }
+
 }

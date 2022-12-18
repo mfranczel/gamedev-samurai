@@ -78,7 +78,7 @@ public class WeaponHandler : MonoBehaviour
         
         if (gameObject.CompareTag("Bandits"))
         {
-            if (col.gameObject.CompareTag("Villagers") || col.gameObject.CompareTag("Player"))
+            if (col.gameObject.CompareTag("Villagers"))
             {
                 print(col.gameObject.name);
                 if (col.gameObject.TryGetComponent(out StatsHealhPoints healthPoints))
@@ -86,6 +86,15 @@ public class WeaponHandler : MonoBehaviour
                     healthPoints.TakeDamage(damage);
                 }
             }
+
+            if (col.gameObject.CompareTag("Player"))
+            {
+                if (col.gameObject.TryGetComponent(out PlayerController playerController))
+                {
+                    playerController.TakeDamage(damage);
+                }
+            }
+            
         }
     }
 }

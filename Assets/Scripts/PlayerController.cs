@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
         rb.velocity = movement;
     }
     
-    void Die()
+    public void Die()
     {
         if (onPlayerDeath != null)
         {
@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         currHealth -= damage;
         healthBar.SetHealth(currHealth);

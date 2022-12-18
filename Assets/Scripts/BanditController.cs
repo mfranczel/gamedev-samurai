@@ -13,6 +13,7 @@ public class BanditController : MonoBehaviour
     [SerializeField] private float timeDelta;
 
     [SerializeField] public GameObject banditObjective;
+    private GameObject navTarget;
 
     [SerializeField] private WeaponHandler _weaponHandler;
 
@@ -22,6 +23,7 @@ public class BanditController : MonoBehaviour
 
     [SerializeField] private Vector3 lastPosition;
 
+    private GameObject _player;
     private Animator _animator;
 
     // Start is called before the first frame update
@@ -46,6 +48,10 @@ public class BanditController : MonoBehaviour
         {
             _animator = animator;
         }
+
+        _player = GameObject.FindWithTag("Player");
+        navTarget = banditObjective;
+
     }
 
     // Update is called once per frame
@@ -71,6 +77,7 @@ public class BanditController : MonoBehaviour
         
         
         Attack();
+        CheckAggro();
     }
     
     void Attack()
@@ -95,13 +102,28 @@ public class BanditController : MonoBehaviour
             timeDelta += Time.deltaTime;
             return;
         }
+
+        if (ReferenceEquals(banditObjective, null))
+        {
+            navTarget = _player;
+        }
         
-        
+        if ((_player.transform.position - transform.position).magnitude <= 10)
+        {
+            navTarget = _player;
+        }
+        else
+        {
+            
+            navTarget = banditObjective;
+        }
+
+        timeDelta = 0;
     }
 
     void UpdateTragetPosition()
     {
-        _navAgent.destination = banditObjective.transform.position;
+        _navAgent.destination = navTarget.transform.position;
     }
 
     void HandleDeath()
