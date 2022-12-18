@@ -19,7 +19,6 @@ public class MapGenerator : MonoBehaviour
     [Range(0, 1)]
     public float persistance;
     public float lacunarity;
-    public int seed;
     public Vector2 offset;
     public bool isIsland;
     public float landScale;
@@ -32,13 +31,12 @@ public class MapGenerator : MonoBehaviour
     {
         GenerateMap();
 
-        // Update NavMesh
-        //NavMesh.
-
     }
 
     public void GenerateMap()
     {
+        int seed = OptionsMenu.seed;
+        
         float[,] noiseMap = Noise.GenerateNoiseMap(
             chunkSize,
             chunkSize,
@@ -51,6 +49,7 @@ public class MapGenerator : MonoBehaviour
             isIsland,
             landScale
         );
+        
         Color[] colorMap = new Color[chunkSize * chunkSize];
 
         for (int i = 0, y = 0; y < chunkSize; y++)
