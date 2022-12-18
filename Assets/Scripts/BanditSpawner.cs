@@ -10,15 +10,35 @@ public class BanditSpawner : MonoBehaviour
     public GameObject Player;
 
     public GameObject Spawnpoint;
-    private List<GameObject> BanditList;
-    private int lastBanditCount;
+    public int lastBanditCount;
     private float timeDelta;
 
     public int WaveNumber = 1;
+
+    public bool waveDestoyed;
     // Start is called before the first frame update
     void Start()
     {
-        int BanditCount = WaveNumber * 2 + 5;
+        SpawnWave();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (lastBanditCount <= 0)
+        {
+            waveDestoyed = true;
+        }
+
+        if (waveDestoyed && Input.GetKeyDown("Enter"))
+        {
+            SpawnWave();
+        }
+    }
+
+    void SpawnWave()
+    {
+        int BanditCount = WaveNumber * 2 + 1;
         for (int i = 0; i < BanditCount; i++)
         {
             Vector3 pos = Spawnpoint.transform.position;
@@ -36,39 +56,16 @@ public class BanditSpawner : MonoBehaviour
                 banditController.banditObjective = Target;
             }
             
-            
             newBandit.SetActive(true);
             if (newBandit.TryGetComponent(out NavMeshAgent agent))
             {
                 agent.destination =  Target.transform.position;
             }
-            BanditList.Add(newBandit);
         }
 
-        lastBanditCount = BanditList.Count;
-
+        lastBanditCount = BanditCount;
+        WaveNumber++;
+        waveDestoyed = false;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        timeDelta += Time.deltaTime;
-
-        if (timeDelta > 1)
-        {
-            
-        }
-
-
-    }
-
-    void UpdateCount()
-    {
-        if (lastBanditCount != BanditList.Count)
-        {
-            lastBanditCount = BanditList.Count;
-            
-        }
-    }
-
+    
 }

@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask movementMask;
     Camera cam;
     public float force = 50f;
-    public int maxHealth;
+    public int maxHealth = 1000;
     public int currHealth;
     public int speed;
     public int attack;
@@ -18,8 +18,8 @@ public class PlayerController : MonoBehaviour
     public int gameMaxSpeed;
     public int gameMaxAttack;
 
-    public int kills;
-    public int xps;
+    public int kills = 0;
+    public int xps = 0;
 
 
     [SerializeField] private Vector3 movement;
@@ -45,7 +45,8 @@ public class PlayerController : MonoBehaviour
         cam = Camera.main;
         movement = Vector3.zero;
         healthBar.SetMaxHealth(maxHealth);
-
+        currHealth = maxHealth;
+        
         if (TryGetComponent(out Animator animator))
         {
             _animator = animator;
@@ -110,13 +111,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void AddKill(int nKills)
+    public void AddKill(int nKills)
     {
         kills += nKills;
-        killText.text = kills.ToString();
+        killText.SetText(kills.ToString());
+        ChangeXPs(nKills * 10 );
+        
     }
 
-    void ChangeXPs(int xp) {
+    public void ChangeXPs(int xp) {
         xps += xp;
         xpText.text = xps.ToString();
     }

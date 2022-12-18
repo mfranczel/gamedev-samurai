@@ -35,9 +35,5 @@ public class StatsHealhPoints : MonoBehaviour
     public void TakeDamage(int value)
     {
         CurrentHealth -= value;
-        if (CurrentHealth <= 0)
-        {
-            Destroy(gameObject);
-        }
     }
 }

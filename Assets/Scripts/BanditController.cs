@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,8 +23,9 @@ public class BanditController : MonoBehaviour
     [SerializeField] private float attackTimeDelta;
 
     [SerializeField] private Vector3 lastPosition;
+    public BanditSpawner banditSpawner;
 
-    private GameObject _player;
+    public GameObject _player;
     private Animator _animator;
 
     // Start is called before the first frame update
@@ -58,11 +60,6 @@ public class BanditController : MonoBehaviour
 
     void Update()
     {
-        if (_hpStats.CurrentHealth <= 0)
-        {
-            HandleDeath();
-        }
-
         if ((lastPosition - transform.position).magnitude >= 0.01)
         {
             _animator.SetFloat("Speed", 0.5f);
@@ -73,13 +70,15 @@ public class BanditController : MonoBehaviour
         }
 
         timeDelta += Time.deltaTime;
-        UpdateTragetPosition();
+        UpdateTargetPosition();
         
         
         Attack();
         CheckAggro();
+        
+        HandleDeath();
     }
-    
+
     void Attack()
     {
         if ((transform.position - _navAgent.destination).magnitude <= 3)
@@ -121,13 +120,25 @@ public class BanditController : MonoBehaviour
         timeDelta = 0;
     }
 
-    void UpdateTragetPosition()
+    void UpdateTargetPosition()
     {
         _navAgent.destination = navTarget.transform.position;
     }
 
-    void HandleDeath()
+    public void HandleDeath()
     {
-        // Handle death
+        if (_hpStats.CurrentHealth <= 0)
+        {
+            if (_player.TryGetComponent(out PlayerController playerController))
+            {
+                playerController.AddKill(1);
+            }
+            
+            if (banditSpawner.TryGetComponent(out BanditSpawner spawner))
+            {
+                spawner.lastBanditCount--;
+            }
+            Destroy(gameObject);
+        }
     }
 }
