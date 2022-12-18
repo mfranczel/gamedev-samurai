@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour
 {
     public LayerMask movementMask;
     Camera cam;
-    PlayerMotor motor;
     public float force = 50f;
     public int maxHealth;
     public int currHealth;
@@ -42,7 +41,6 @@ public class PlayerController : MonoBehaviour
     {
         transform.position = SpawnPoint.transform.position;
         cam = Camera.main;
-        motor = FindObjectOfType<PlayerMotor>();
         movement = Vector3.zero;
         healthBar.SetMaxHealth(maxHealth);
     }
