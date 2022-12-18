@@ -20,7 +20,7 @@ public class VillagerController : MonoBehaviour
                 float dist = agent.remainingDistance;
                 if (agent.pathStatus == NavMeshPathStatus.PathComplete) // dist != Mathf.Infinity && agent.pathStatus == NavMeshPathStatus.PathComplete &&agent.remainingDistance == 0
                 {
-                    agent.destination = VillagerTargets[Random.Range(0, VillagerTargets.Count)].transform.position;
+                    // agent.destination = VillagerTargets[Random.Range(0, VillagerTargets.Count)].transform.position;
                 }
             }
     }
