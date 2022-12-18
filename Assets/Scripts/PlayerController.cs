@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -11,6 +12,9 @@ public class PlayerController : MonoBehaviour
     public int maxHealth;
     public int currHealth;
 
+    public int kills;
+    public int xps;
+
 
     private Vector3 movement;
     private Vector3 rotationSpeed = new Vector3(0, 40, 0);
@@ -19,6 +23,8 @@ public class PlayerController : MonoBehaviour
     private float walk = 1.0f;
     public HealthBar healthBar;
     public GameObject SpawnPoint;
+    public TextMeshPro killText;
+    public TextMeshPro xpText;
     
 
     // Start is called before the first frame update
@@ -51,6 +57,16 @@ public class PlayerController : MonoBehaviour
     void TakeDamage(int damage) {
         currHealth -= damage;
         healthBar.SetHealth(currHealth);
+    }
+    
+    void AddKill(int nKills) {
+        kills += nKills;
+        killText.text = kills.ToString();
+    }
+    
+    void AddXPs(int xp) {
+        xps += xp;
+        xpText.text = xps.ToString();
     }
     
     
