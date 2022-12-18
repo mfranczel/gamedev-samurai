@@ -18,11 +18,13 @@ public class PlayerController : MonoBehaviour
     
     private float walk = 1.0f;
     public HealthBar healthBar;
+    public GameObject SpawnPoint;
     
 
     // Start is called before the first frame update
     void Start()
     {
+        transform.position = SpawnPoint.transform.position;
         cam = Camera.main;
         motor = FindObjectOfType<PlayerMotor>();
         movement = Vector3.zero;

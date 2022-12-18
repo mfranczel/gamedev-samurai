@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - Water
+  - Bandits
+  - Villagers
   layers:
   - Default
   - TransparentFX
