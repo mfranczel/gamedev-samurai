@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     public int xps;
 
 
-    private Vector3 movement;
+    [SerializeField] private Vector3 movement;
     private Vector3 rotationSpeed = new Vector3(0, 40, 0);
     public Rigidbody rb;
     
@@ -25,8 +25,9 @@ public class PlayerController : MonoBehaviour
     public GameObject SpawnPoint;
     public TextMeshPro killText;
     public TextMeshPro xpText;
-    
 
+    [SerializeField] private Animator _animator;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -35,12 +36,18 @@ public class PlayerController : MonoBehaviour
         motor = FindObjectOfType<PlayerMotor>();
         movement = Vector3.zero;
         healthBar.SetMaxHealth(maxHealth);
+
+        if (TryGetComponent(out Animator animator))
+        {
+            _animator = animator;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         Move();
+        
     }
 
     void Move()
@@ -50,6 +57,15 @@ public class PlayerController : MonoBehaviour
         movement = transform.right * Horizontal + transform.forward * Vertical;
         movement *= force;
         movement.y = rb.velocity.y;
+
+        if (Horizontal == 0 && Vertical == 0)
+        {
+            _animator.SetFloat("Speed", 0);
+        }
+        else
+        {
+            _animator.SetFloat("Speed", 0.5f);
+        }
 
         rb.velocity = movement;
     }
