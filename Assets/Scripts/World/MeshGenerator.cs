@@ -16,7 +16,8 @@ public static class MeshGenerator
         int verticesPerLine = (width - 1) / increment + 1;
 
         MeshData meshData = new MeshData(verticesPerLine, verticesPerLine);
-
+        
+        // generate triangles for mesh, based on height map from perlin noise
         for (int y = 0, index = 0; y < height; y += increment)
         {
             for (int x = 0; x < width; x += increment)

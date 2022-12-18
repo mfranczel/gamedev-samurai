@@ -9,6 +9,7 @@ public class OptionsMenu : MonoBehaviour
 {
     private Resolution[] resolutions;
     public TMPro.TMP_Dropdown resolutionDropdown;
+    public static int seed = 10;
     private void Start()
     {
         resolutions = Screen.resolutions;
@@ -39,7 +40,13 @@ public class OptionsMenu : MonoBehaviour
     {
         Screen.fullScreen = isFullscreen;
     }
+
+    public void SetSeed(String seed)
+    {
+        OptionsMenu.seed = Int32.Parse(seed);
+    }
     
+
     public void SetResolution(int resolutionIndex)
     {
         Resolution resolution = resolutions[resolutionIndex];
