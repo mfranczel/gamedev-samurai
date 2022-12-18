@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour
     Camera cam;
     PlayerMotor motor;
     public float force = 50f;
-    public int minHealth;
     public int maxHealth;
     public int currHealth;
 
@@ -18,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public Rigidbody rb;
     
     private float walk = 1.0f;
+    public HealthBar healthBar;
     
 
     // Start is called before the first frame update
@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
         cam = Camera.main;
         motor = FindObjectOfType<PlayerMotor>();
         movement = Vector3.zero;
+        healthBar.SetMaxHealth(maxHealth);
     }
 
     // Update is called once per frame
@@ -47,7 +48,10 @@ public class PlayerController : MonoBehaviour
 
     void TakeDamage(int damage) {
         currHealth -= damage;
+        healthBar.SetHealth(currHealth);
     }
+    
+    
 
 
 }
