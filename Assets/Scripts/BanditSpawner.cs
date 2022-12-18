@@ -28,6 +28,12 @@ public class BanditSpawner : MonoBehaviour
                 HPStats.Upgrades = WaveNumber * 2;
             }
             
+            if (newBandit.TryGetComponent(out BanditController banditController))
+            {
+                banditController.banditObjective = Target;
+            }
+            
+            
             newBandit.SetActive(true);
             if (newBandit.TryGetComponent(out NavMeshAgent agent))
             {

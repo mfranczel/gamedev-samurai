@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class StatsHealhPoints : MonoBehaviour
@@ -31,8 +32,12 @@ public class StatsHealhPoints : MonoBehaviour
         CurrentHealth = MaxHealth;
     }
 
-    void TakeDamage(int value)
+    public void TakeDamage(int value)
     {
         CurrentHealth -= value;
+        if (CurrentHealth <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }
