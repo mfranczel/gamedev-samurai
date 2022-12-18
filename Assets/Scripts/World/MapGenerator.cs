@@ -36,7 +36,7 @@ public class MapGenerator : MonoBehaviour
     public void GenerateMap()
     {
         int seed = OptionsMenu.seed;
-        
+        // generate perlin noise
         float[,] noiseMap = Noise.GenerateNoiseMap(
             chunkSize,
             chunkSize,
@@ -69,6 +69,7 @@ public class MapGenerator : MonoBehaviour
             }
         }
         MapDisplay display = FindObjectOfType<MapDisplay>();
+        // some modes are for debug only
         if (drawMode == DrawMode.NoiseMap)
         {
             display.DrawTexture(TextureGenerator.TextureFromHeightMap(noiseMap));

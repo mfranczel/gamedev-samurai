@@ -56,6 +56,7 @@ public class AssetGenerator : MonoBehaviour
     {
         if (spawnedObjects.Count == 0)
         {
+            // generate separately groups of assets
             GenerateAssets(plantPrefabs, plantNumberRange, plantHeightRange, plantCityRadius);
             GenerateAssets(rockPrefabs, rockNumberRange, rockHeightRange, rockCityRadius);
             GenerateAssets(bushPrefabs, bushNumberRange, bushHeightRange, bushCityRadius);

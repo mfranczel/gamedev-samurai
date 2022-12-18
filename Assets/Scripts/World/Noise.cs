@@ -39,7 +39,8 @@ public static class Noise
 
         float halfWidth = width / 2f;
         float halfHeight = height / 2f;
-
+        
+        // generate height y point for each point on map, with perlin noise
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
